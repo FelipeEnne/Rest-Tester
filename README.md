@@ -1,24 +1,5 @@
-# README
+# Basic Routes, Views and Controllers
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+In this project you will learn how to create and use routes for your application.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Full task description: <a href="https://www.theodinproject.com/courses/ruby-on-rails/lessons/basic-routes-views-and-controllers.">theodinproject</a> 
