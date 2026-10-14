@@ -39,15 +39,29 @@ class RestTester
   def request(method, url)
     uri = URI(url)
     http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme == "https"
+
+    if method == :post
+      token_response = http.get("/users/new")
+      token = token_response.body[/<meta name="csrf-token" content="([^"]+)"/, 1]
+      raise "CSRF token not found in /users/new response" unless token
+    end
+
     request =
       case method
       when :get then Net::HTTP::Get.new(uri)
-      when :post then Net::HTTP::Post.new(uri)
+      when :post
+        post = Net::HTTP::Post.new(uri)
+        post["X-CSRF-Token"] = token
+        post.set_form_data(authenticity_token: token)
+        post
       else
         raise ArgumentError, "unsupported method: #{method}"
       end
 
     response = http.request(request)
+    raise "HTTP request failed: #{response.code}" unless response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPRedirection)
+
     response.body
   end
 end
